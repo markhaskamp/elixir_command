@@ -4,7 +4,11 @@ defmodule Number do
   end
 
   def stop do
-    Agent.stop Num
+    Agent.stop(Num)
+  end
+
+  def set(val) do
+    Agent.update(Num, fn(s) -> val end)
   end
 
   def number do
