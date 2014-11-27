@@ -1,0 +1,2 @@
+defmodule Number do
+end
