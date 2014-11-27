@@ -1,14 +1,18 @@
 defmodule Number do
   def start(n \\ 0) do
-    Agent.start(fn -> n end, name: __MODULE__)
+    Agent.start(fn -> n end, name: Num)
   end
 
   def stop do
-    Agent.stop __MODULE__
+    Agent.stop Num
   end
 
   def number do
-    Agent.get(__MODULE__, fn(s) -> s end)
+    Agent.get(Num, fn(s) -> s end)
+  end
+
+  def apply(f) do
+    Agent.update(Num, fn(s) -> f.(s) end)
   end
 
 end
