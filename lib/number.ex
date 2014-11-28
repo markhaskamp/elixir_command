@@ -8,19 +8,28 @@ defmodule Number do
   end
 
   def set(pid, n) do
-    Agent.update(pid, fn({val, cmds}) -> {n, cmds} end)
+    Agent.update(pid, fn({val, deltas}) -> {n, deltas} end)
   end
 
   def number(pid) do
-    Agent.get(pid, fn({val, cmds}) -> val end)
+    Agent.get(pid, fn({val, deltas}) -> val end)
+  end
+
+  def deltas(pid) do
+    Agent.get(pid, fn({val, deltas}) -> deltas end)
   end
 
   def apply(pid, f) do
-    Agent.update(pid, fn({val, cmds}) -> {f.(val), [f|cmds]} end)
+    Agent.update(pid, fn({val, deltas}) -> 
+      new_val = f.(val)
+      {new_val, [val - new_val | deltas]}
+      
+    end)
   end
 
-  def commands(pid) do
-    Agent.get(pid, fn({val, cmds}) -> cmds end)
+  def undo(pid) do
+    deltas = Agent.get(pid, fn({val, deltas}) -> deltas end)
+    
   end
 
 end
