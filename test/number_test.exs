@@ -31,8 +31,7 @@ defmodule NumberTest do
   end
 
   test "convert 'n' from Fahrenheit to Celsius in two steps" do
-    Number.start
-    Number.set 212
+    Number.start 212
 
     # convert F to Celsius
     Number.apply(fn(x) -> x - 32 end)
@@ -42,19 +41,17 @@ defmodule NumberTest do
     Number.stop
   end
 
+  test "convert 'n' from Celsius to Fahrenheit in three steps" do
+    Number.start 100
 
-  test "math trick" do
-    n = 5     # step 1
-    key = 20
-    Number.start n
-
-    Number.apply(&(&1 * 2))  # step 2
-    Number.apply(&(&1 + key))  # step 3
-    Number.apply(&(&1 / 2))    # step 4
-    Number.apply(&(&1 - n))    # step 5
-
-    assert (key/2) == Number.number
+    # convert C to F
+    Number.apply(fn(x) -> x * 9 end)
+    Number.apply(fn(x) -> x / 5 end)
+    Number.apply(fn(x) -> x + 32 end)
+    assert 212 == Number.number
 
     Number.stop
   end
+
+
 end
