@@ -63,13 +63,14 @@ defmodule NumberTest do
     assert [-4, -2, -1] == list
   end
 
-  # test "undo resets the state to previous", %{agent: agent} do
-  #   Number.apply(agent, fn(x) -> x + 1 end)
-  #   Number.apply(agent, fn(x) -> x + 2 end)
-  #   assert 3 == Number.number(agent)
+  test "undo resets the state to previous", %{agent: agent} do
+    Number.apply(agent, fn(x) -> x + 1 end)
+    Number.apply(agent, fn(x) -> x + 2 end)
+    Number.apply(agent, fn(x) -> x + 4 end)
+    assert 7 == Number.number(agent)
 
-  #   Number.undo(agent)
-  #   assert 1 == Number.number(agent)
-  # end
+    Number.undo(agent)
+    assert 3 == Number.number(agent)
+  end
 
 end

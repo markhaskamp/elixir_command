@@ -8,15 +8,15 @@ defmodule Number do
   end
 
   def set(pid, n) do
-    Agent.update(pid, fn({val, deltas}) -> {n, deltas} end)
+    Agent.update(pid, fn({_val, deltas}) -> {n, deltas} end)
   end
 
   def number(pid) do
-    Agent.get(pid, fn({val, deltas}) -> val end)
+    Agent.get(pid, fn({val, _deltas}) -> val end)
   end
 
   def deltas(pid) do
-    Agent.get(pid, fn({val, deltas}) -> deltas end)
+    Agent.get(pid, fn({_val, deltas}) -> deltas end)
   end
 
   def apply(pid, f) do
@@ -28,7 +28,9 @@ defmodule Number do
   end
 
   def undo(pid) do
-    deltas = Agent.get(pid, fn({val, deltas}) -> deltas end)
+    Agent.update(pid, fn{val,deltas} ->
+      {val + hd(deltas), tl(deltas)}
+    end)
     
   end
 
