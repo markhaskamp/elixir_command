@@ -73,4 +73,37 @@ defmodule NumberTest do
     assert 3 == Number.number(agent)
   end
 
+  test "can perform multiple undos", %{agent: agent} do
+    Number.apply(agent, fn(x) -> x + 1 end)  # => 1
+    Number.apply(agent, fn(x) -> x + 2 end)  # => 3
+    Number.apply(agent, fn(x) -> x + 4 end)  # => 7
+    assert 7 == Number.number(agent)
+
+    Number.undo(agent)
+    assert 3 == Number.number(agent)
+
+    Number.undo(agent)
+    assert 1 == Number.number(agent)
+  end
+
+  test "can undo and apply and undo", %{agent: agent} do
+    Number.apply(agent, fn(x) -> x + 1 end)  # => 1
+    Number.apply(agent, fn(x) -> x + 2 end)  # => 3
+    Number.apply(agent, fn(x) -> x + 4 end)  # => 7
+    assert 7 == Number.number(agent)
+
+    Number.undo(agent)
+    assert 3 == Number.number(agent)
+
+    Number.undo(agent)
+    assert 1 == Number.number(agent)
+
+    Number.apply(agent, fn(x) -> x + 31 end)  # => 32
+    Number.apply(agent, fn(x) -> ((x-32) * 5 / 9) end)  # => 0
+    assert 0 == Number.number(agent)
+
+    Number.undo(agent)
+    assert 32 == Number.number(agent)
+  end
+
 end
