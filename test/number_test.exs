@@ -104,6 +104,9 @@ defmodule NumberTest do
 
     Number.undo(agent)
     assert 32 == Number.number(agent)
+
+    Number.undo(agent)
+    assert 1 == Number.number(agent)
   end
 
 end
