@@ -58,5 +58,4 @@ defmodule NumberTest do
    assert 4 == length(Number.commands(agent))
  end
 
-
 end
