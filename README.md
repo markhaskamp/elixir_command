@@ -1,6 +1,6 @@
 # Number
 
-Holds a number as it's state.  
+Holds a number as its state.  
 
 ## Features
 
